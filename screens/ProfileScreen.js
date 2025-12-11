@@ -1,11 +1,21 @@
 // screens/ProfileScreen.js
 
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  useWindowDimensions,
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SPACING, RADII, FONTS } from '../theme';
 
 export default function ProfileScreen() {
+  // Ekran genişliği
+  const { width } = useWindowDimensions();
+  const isLargeScreen = width > 500; // tablet / geniş ekran için
+
   // Tema durumu (light / dark)
   const [theme, setTheme] = useState('light');
   // Like durumu
@@ -13,12 +23,10 @@ export default function ProfileScreen() {
 
   const currentTheme = COLORS[theme];
 
-  // Tema değiştirme fonksiyonu
   const toggleTheme = () => {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
   };
 
-  // Like butonu fonksiyonu
   const toggleLike = () => {
     setIsLiked((prev) => !prev);
     console.log('Profile liked state:', !isLiked);
@@ -50,6 +58,9 @@ export default function ProfileScreen() {
           {
             backgroundColor: currentTheme.cardBg,
             borderColor: currentTheme.border,
+            // Ekrana göre genişlik ve padding
+            width: isLargeScreen ? '60%' : '85%',
+            padding: isLargeScreen ? SPACING.xl : SPACING.lg,
           },
         ]}
       >
@@ -115,8 +126,6 @@ const styles = StyleSheet.create({
     borderRadius: RADII.full,
   },
   card: {
-    width: '85%',
-    padding: SPACING.lg,
     borderRadius: RADII.lg,
     borderWidth: 1,
 
@@ -153,7 +162,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     alignSelf: 'center',
-    gap: SPACING.xs,
     paddingHorizontal: SPACING.md,
     paddingVertical: SPACING.sm,
     borderRadius: RADII.full,
