@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
 import { useFonts } from 'expo-font';
+import ProfileScreen from './screens/ProfileScreen';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -9,26 +9,8 @@ export default function App() {
   });
 
   if (!fontsLoaded) {
-    // Fontlar yüklenene kadar boş ekran gösteriyoruz
     return null;
   }
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Fonts Loaded!</Text>
-    </View>
-  );
+  return <ProfileScreen />;
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#ffffff',
-  },
-  title: {
-    fontFamily: 'Montserrat-Bold',
-    fontSize: 24,
-  },
-});
