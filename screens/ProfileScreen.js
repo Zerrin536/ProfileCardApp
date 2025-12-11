@@ -2,10 +2,10 @@
 
 import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SPACING, RADII, FONTS } from '../theme';
 
 export default function ProfileScreen() {
-  // Şimdilik sadece light tema kullanıyoruz
   const [theme] = useState('light');
   const currentTheme = COLORS[theme];
 
@@ -25,21 +25,26 @@ export default function ProfileScreen() {
           },
         ]}
       >
+        <View style={styles.avatar}>
+          <Ionicons name="person" size={32} color="#FFFFFF" />
+        </View>
+
         <Text
           style={[
-            styles.title,
+            styles.name,
             { color: currentTheme.text },
           ]}
         >
-          Profile Card
+          Ozan Duru 
         </Text>
+
         <Text
           style={[
-            styles.subtitle,
+            styles.role,
             { color: currentTheme.muted },
           ]}
         >
-          Welcome to your profile!
+          Mobile Developer
         </Text>
       </View>
     </View>
@@ -55,16 +60,34 @@ const styles = StyleSheet.create({
   card: {
     width: '85%',
     padding: SPACING.lg,
-    borderRadius: RADII.md,
+    borderRadius: RADII.lg,
     borderWidth: 1,
+
+    // Gölge (shadow) – iOS + Android
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 12 },
+    shadowOpacity: 0.25,
+    shadowRadius: 20,
+    elevation: 10,
   },
-  title: {
+  avatar: {
+    width: 64,
+    height: 64,
+    borderRadius: RADII.full,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: COLORS.primary,
+    marginBottom: SPACING.md,
+  },
+  name: {
     fontFamily: FONTS.bold,
-    fontSize: 22,
-    marginBottom: SPACING.sm,
+    fontSize: 20,
+    textAlign: 'center',
+    marginBottom: SPACING.xs,
   },
-  subtitle: {
+  role: {
     fontFamily: FONTS.regular,
     fontSize: 14,
+    textAlign: 'center',
   },
 });
