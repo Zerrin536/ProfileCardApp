@@ -1,13 +1,28 @@
 // screens/ProfileScreen.js
 
 import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SPACING, RADII, FONTS } from '../theme';
 
 export default function ProfileScreen() {
-  const [theme] = useState('light');
+  // Tema durumu (light / dark)
+  const [theme, setTheme] = useState('light');
+  // Like durumu
+  const [isLiked, setIsLiked] = useState(false);
+
   const currentTheme = COLORS[theme];
+
+  // Tema değiştirme fonksiyonu
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+  };
+
+  // Like butonu fonksiyonu
+  const toggleLike = () => {
+    setIsLiked((prev) => !prev);
+    console.log('Profile liked state:', !isLiked);
+  };
 
   return (
     <View
@@ -16,6 +31,19 @@ export default function ProfileScreen() {
         { backgroundColor: currentTheme.bg },
       ]}
     >
+      {/* Tema Toggle Butonu (üst sağ) */}
+      <Pressable
+        onPress={toggleTheme}
+        style={styles.themeToggle}
+      >
+        <Ionicons
+          name={theme === 'light' ? 'moon' : 'sunny'}
+          size={24}
+          color={currentTheme.text}
+        />
+      </Pressable>
+
+      {/* Profil Kartı */}
       <View
         style={[
           styles.card,
@@ -35,7 +63,7 @@ export default function ProfileScreen() {
             { color: currentTheme.text },
           ]}
         >
-          Ozan Duru 
+          Ozan Duru
         </Text>
 
         <Text
@@ -46,6 +74,28 @@ export default function ProfileScreen() {
         >
           Mobile Developer
         </Text>
+
+        {/* Like Butonu */}
+        <Pressable
+          onPress={toggleLike}
+          style={styles.likeButton}
+        >
+          <Ionicons
+            name={isLiked ? 'heart' : 'heart-outline'}
+            size={24}
+            color={isLiked ? COLORS.like : currentTheme.muted}
+          />
+          <Text
+            style={[
+              styles.likeText,
+              {
+                color: isLiked ? COLORS.like : currentTheme.muted,
+              },
+            ]}
+          >
+            {isLiked ? 'Liked' : 'Like'}
+          </Text>
+        </Pressable>
       </View>
     </View>
   );
@@ -57,13 +107,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  themeToggle: {
+    position: 'absolute',
+    top: 50,
+    right: 24,
+    padding: SPACING.sm,
+    borderRadius: RADII.full,
+  },
   card: {
     width: '85%',
     padding: SPACING.lg,
     borderRadius: RADII.lg,
     borderWidth: 1,
 
-    // Gölge (shadow) – iOS + Android
+    // Gölge
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 12 },
     shadowOpacity: 0.25,
@@ -77,6 +134,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: COLORS.primary,
+    alignSelf: 'center',
     marginBottom: SPACING.md,
   },
   name: {
@@ -89,5 +147,20 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.regular,
     fontSize: 14,
     textAlign: 'center',
+    marginBottom: SPACING.lg,
+  },
+  likeButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'center',
+    gap: SPACING.xs,
+    paddingHorizontal: SPACING.md,
+    paddingVertical: SPACING.sm,
+    borderRadius: RADII.full,
+  },
+  likeText: {
+    fontFamily: FONTS.regular,
+    fontSize: 14,
+    marginLeft: SPACING.xs,
   },
 });
